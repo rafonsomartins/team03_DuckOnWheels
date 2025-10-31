@@ -1,9 +1,25 @@
+#/***************************************************
+ * @file main.cpp
+ * @brief Entry point for the JetRacer Robot Control application.
+ * @ingroup Control
+ * @author Team03
+ * @date 2025-10-31
+ * @version 1.0
+ */
+
 #include "include/RobotController.hpp"
 #include <iostream>
 #include <signal.h>
 
+/** Global pointer used by the signal handler to stop the robot safely. */
 RobotController* global_controller = nullptr;
 
+/**
+ * @brief Handle termination signals (SIGINT/SIGTERM) to stop the robot.
+ * @param signum Signal number received.
+ * @details Invokes the global controller emergency stop to ensure motors and
+ * servos are put into a safe state before the process exits.
+ */
 void signal_handler(int signum) {
     std::cout << "\n\nReceived signal " << signum << " (Ctrl+C)" << std::endl;
     std::cout << "Emergency stopping robot..." << std::endl;
@@ -16,6 +32,15 @@ void signal_handler(int signum) {
     exit(signum);
 }
 
+/**
+ * @brief Program entry point.
+ * @param argc Argument count provided by the runtime.
+ * @param argv Argument vector provided by the runtime.
+ * @return Returns 0 on success, non-zero on failure.
+ * @details Initializes the robot controller, registers signal handlers and
+ * starts the main control loop. Exceptions are caught and printed with hints
+ * for common hardware issues.
+ */
 int main(int argc, char* argv[]) {
     try {
         std::cout << "=== JetRacer Robot Control System ===" << std::endl;

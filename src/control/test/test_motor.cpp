@@ -1,3 +1,15 @@
+/**
+ * @file test_motor.cpp
+ * @brief Integration-style tests for DualPCA9685 motor outputs.
+ * @ingroup Control
+ * @author Team03
+ * @date 2025-10-31
+ * @version 1.0
+ * @details These tests will be skipped when hardware is not present. They
+ * perform basic calls to the motor API to ensure no exceptions are thrown and
+ * that stop functions behave as expected.
+ */
+
 #include <gtest/gtest.h>
 #include "../include/DualPCA9685.hpp"
 #include <stdexcept>

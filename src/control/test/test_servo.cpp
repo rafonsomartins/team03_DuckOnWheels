@@ -1,3 +1,14 @@
+/**
+ * @file test_servo.cpp
+ * @brief Integration-style tests for servo outputs via DualPCA9685.
+ * @ingroup Control
+ * @author Team03
+ * @date 2025-10-31
+ * @version 1.0
+ * @details These tests may be skipped when hardware is not present. They
+ * exercise angle clamping and basic movement sequences.
+ */
+
 #include <gtest/gtest.h>
 #include "../include/DualPCA9685.hpp"
 #include <stdexcept>

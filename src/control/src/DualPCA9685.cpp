@@ -1,3 +1,12 @@
+/**
+ * @file DualPCA9685.cpp
+ * @brief Implementation of the DualPCA9685 I2C PWM driver.
+ * @ingroup Control
+ * @author Team03
+ * @date 2025-10-31
+ * @version 1.0
+ */
+
 #include "../include/DualPCA9685.hpp"
 #include <fcntl.h>
 #include <unistd.h>
@@ -23,6 +32,7 @@ void DualPCA9685::set_pwm(int fd, uint8_t channel, uint16_t on, uint16_t off) {
 }
 
 void DualPCA9685::init_pca(int fd, uint8_t prescaler) {
+    // Bring device to a known reset state, set prescaler, and restart
     write_byte(fd, 0x00, 0x00);
     usleep(5000);
     write_byte(fd, 0x01, 0x04);
@@ -35,6 +45,12 @@ void DualPCA9685::init_pca(int fd, uint8_t prescaler) {
     usleep(5000);
 }
 
+/**
+ * @brief Open I2C buses and initialize both PCA9685 devices.
+ * @details Throws runtime_error when device nodes or ioctls fail. The
+ * constructor chooses addresses 0x60 for motor controller and 0x40 for the
+ * servo controller per platform wiring.
+ */
 DualPCA9685::DualPCA9685() {
     if ((fd_motor = open("/dev/i2c-1", O_RDWR)) < 0) {
         throw std::runtime_error("Failed to open I2C for motor");
@@ -74,6 +90,8 @@ void DualPCA9685::set_pwm_duty(uint8_t channel, float duty_fraction) {
 void DualPCA9685::set_motor(float throttle) {
     float duty = fabs(throttle);
     
+    // Map positive throttle to forward motor channel configuration,
+    // negative throttle to reverse configuration.
     if (throttle > 0.0f) {
         set_pwm_duty(0, duty);
         set_pwm_duty(1, 1.0f);

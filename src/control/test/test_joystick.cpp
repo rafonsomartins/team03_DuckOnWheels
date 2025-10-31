@@ -1,3 +1,14 @@
+/**
+ * @file test_joystick.cpp
+ * @brief Unit tests for Joystick mapping functions.
+ * @ingroup Control
+ * @author Team03
+ * @date 2025-10-31
+ * @version 1.0
+ * @details These tests exercise the pure-math portions of the joystick
+ * mapping utilities and do not require hardware.
+ */
+
 #include <gtest/gtest.h>
 #include "../include/Joystick.hpp"
 #include <cmath>
